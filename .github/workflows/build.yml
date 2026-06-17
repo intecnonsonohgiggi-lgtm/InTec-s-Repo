@@ -30,8 +30,7 @@ jobs:
 
       - name: Download iOS SDK
         run: |
-          curl -L -o sdk.tar.xz \
-            "https://github.com/theos/sdks/releases/download/master-146e41f/iPhoneOS15.6.sdk.tar.xz"
+          curl -L -o sdk.tar.xz "https://github.com/theos/sdks/releases/download/master-146e41f/iPhoneOS15.6.sdk.tar.xz"
           mkdir -p $HOME/theos/sdks
           tar -xf sdk.tar.xz -C $HOME/theos/sdks
 
@@ -44,38 +43,13 @@ jobs:
         run: |
           mkdir -p repo/debs
           cp packages/*.deb repo/debs/
-
           DEB=$(ls repo/debs/*.deb)
           SIZE=$(wc -c < "$DEB" | tr -d ' ')
           MD5=$(md5sum "$DEB" | awk '{print $1}')
           SHA256=$(sha256sum "$DEB" | awk '{print $1}')
           FILENAME=$(basename "$DEB")
-
-          cat > repo/Release << RELEOF
-Origin: SiriAIOverhaul Repo
-Label: SiriAIOverhaul
-Suite: stable
-Version: 1.0
-Architectures: iphoneos-arm64
-Components: main
-Description: Repo per SiriAIOverhaul
-RELEOF
-
-          cat > repo/Packages << PKGEOF
-Package: com.tuonome.siriaioverhaul
-Name: SiriAIOverhaul
-Version: 1.0.0
-Architecture: iphoneos-arm64
-Description: Sostituisce Siri con ChatGPT / Gemini
-Maintainer: Il Tuo Nome <tuo@email.com>
-Section: Tweaks
-Depends: mobilesubstrate (>= 0.9.7000), firmware (>= 15.0)
-Filename: debs/$FILENAME
-Size: $SIZE
-MD5sum: $MD5
-SHA256: $SHA256
-PKGEOF
-
+          printf "Origin: SiriAIOverhaul Repo\nLabel: SiriAIOverhaul\nSuite: stable\nVersion: 1.0\nArchitectures: iphoneos-arm64\nComponents: main\nDescription: Repo per SiriAIOverhaul\n" > repo/Release
+          printf "Package: com.tuonome.siriaioverhaul\nName: SiriAIOverhaul\nVersion: 1.0.0\nArchitecture: iphoneos-arm64\nDescription: Sostituisce Siri con ChatGPT / Gemini\nMaintainer: Il Tuo Nome <tuo@email.com>\nSection: Tweaks\nDepends: mobilesubstrate (>= 0.9.7000), firmware (>= 15.0)\nFilename: debs/%s\nSize: %s\nMD5sum: %s\nSHA256: %s\n" "$FILENAME" "$SIZE" "$MD5" "$SHA256" > repo/Packages
           gzip -k repo/Packages
           echo "<h1>SiriAIOverhaul Repo</h1>" > repo/index.html
 
