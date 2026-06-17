@@ -1,0 +1,12 @@
+Package: com.tuonome.siriaioverhaul
+Name: SiriAIOverhaul
+Version: 1.0.0
+Architecture: iphoneos-arm64
+Description: Sostituisce Siri con ChatGPT / Gemini
+Maintainer: Il Tuo Nome <tuo@email.com>
+Section: Tweaks
+Depends: mobilesubstrate (>= 0.9.7000), firmware (>= 15.0)
+Filename: debs/com.tuonome.siriaioverhaul_1.0.0_iphoneos-arm64.deb
+Size: 15486
+MD5sum: 2b642763d0f360871520fed59fb63a6f
+SHA256: ef5ca3de51676881596f009b07fc1dc172e4eeb894cbab4e15a8dc3308a288dc
