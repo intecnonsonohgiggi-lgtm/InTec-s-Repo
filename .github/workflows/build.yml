@@ -45,36 +45,36 @@ jobs:
           mkdir -p repo/debs
           cp packages/*.deb repo/debs/
 
-          cat > repo/Release << 'EOF'
-          Origin: SiriAIOverhaul Repo
-          Label: SiriAIOverhaul
-          Suite: stable
-          Version: 1.0
-          Architectures: iphoneos-arm64
-          Components: main
-          Description: Repo per SiriAIOverhaul
-          EOF
-
           DEB=$(ls repo/debs/*.deb)
           SIZE=$(wc -c < "$DEB" | tr -d ' ')
           MD5=$(md5sum "$DEB" | awk '{print $1}')
           SHA256=$(sha256sum "$DEB" | awk '{print $1}')
           FILENAME=$(basename "$DEB")
 
-          cat > repo/Packages << EOF
-          Package: com.tuonome.siriaioverhaul
-          Name: SiriAIOverhaul
-          Version: 1.0.0
-          Architecture: iphoneos-arm64
-          Description: Sostituisce Siri con ChatGPT / Gemini
-          Maintainer: Il Tuo Nome <tuo@email.com>
-          Section: Tweaks
-          Depends: mobilesubstrate (>= 0.9.7000), firmware (>= 15.0)
-          Filename: debs/$FILENAME
-          Size: $SIZE
-          MD5sum: $MD5
-          SHA256: $SHA256
-          EOF
+          cat > repo/Release << RELEOF
+Origin: SiriAIOverhaul Repo
+Label: SiriAIOverhaul
+Suite: stable
+Version: 1.0
+Architectures: iphoneos-arm64
+Components: main
+Description: Repo per SiriAIOverhaul
+RELEOF
+
+          cat > repo/Packages << PKGEOF
+Package: com.tuonome.siriaioverhaul
+Name: SiriAIOverhaul
+Version: 1.0.0
+Architecture: iphoneos-arm64
+Description: Sostituisce Siri con ChatGPT / Gemini
+Maintainer: Il Tuo Nome <tuo@email.com>
+Section: Tweaks
+Depends: mobilesubstrate (>= 0.9.7000), firmware (>= 15.0)
+Filename: debs/$FILENAME
+Size: $SIZE
+MD5sum: $MD5
+SHA256: $SHA256
+PKGEOF
 
           gzip -k repo/Packages
           echo "<h1>SiriAIOverhaul Repo</h1>" > repo/index.html
