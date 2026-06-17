@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>title</key><string>SiriAI Overhaul</string>
+    <key>items</key>
+    <array>
+        <dict>
+            <key>cell</key><string>PSGroupCell</string>
+            <key>label</key><string>Generale</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSSwitchCell</string>
+            <key>key</key><string>enabled</string>
+            <key>label</key><string>Attivo</string>
+            <key>default</key><true/>
+            <key>defaults</key><string>com.tuonome.siriaioverhaul</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSGroupCell</string>
+            <key>label</key><string>Motore AI</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSSegmentCell</string>
+            <key>key</key><string>aiProvider</string>
+            <key>label</key><string>Provider</string>
+            <key>default</key><integer>0</integer>
+            <key>defaults</key><string>com.tuonome.siriaioverhaul</string>
+            <key>validTitles</key>
+            <array><string>ChatGPT</string><string>Gemini</string></array>
+            <key>validValues</key>
+            <array><integer>0</integer><integer>1</integer></array>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSGroupCell</string>
+            <key>label</key><string>Chiave API</string>
+            <key>footerText</key><string>Inserisci la chiave del provider selezionato.</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSEditTextCell</string>
+            <key>key</key><string>apiKey</string>
+            <key>label</key><string>API Key</string>
+            <key>placeholder</key><string>sk-... oppure AIza...</string>
+            <key>isSecure</key><true/>
+            <key>defaults</key><string>com.tuonome.siriaioverhaul</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSGroupCell</string>
+            <key>label</key><string>Effetto Visivo</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSSwitchCell</string>
+            <key>key</key><string>glowEnabled</string>
+            <key>label</key><string>Bordo Glow</string>
+            <key>default</key><true/>
+            <key>defaults</key><string>com.tuonome.siriaioverhaul</string>
+        </dict>
+    </array>
+</dict>
+</plist>
