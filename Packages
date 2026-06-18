@@ -7,6 +7,6 @@ Maintainer: Il Tuo Nome <tuo@email.com>
 Section: Tweaks
 Depends: mobilesubstrate (>= 0.9.7000), firmware (>= 15.0)
 Filename: debs/com.tuonome.siriaioverhaul_1.0.0_iphoneos-arm64.deb
-Size: 16170
-MD5sum: b3be65c5f7a0c43d7e5a2fd6ff230e15
-SHA256: 611269ab26ccee16c67a9fb05c0f85fe54dbf7476ae5dcf6b316edc997bf7fb1
+Size: 16202
+MD5sum: a4953b6a4065ff62958716d207ea85e4
+SHA256: 4caea4de293b97a360d0235f3e51aec81ffe589f86074d670c6f93b99a48495b
