@@ -402,9 +402,18 @@ static void SAOOnStop(CFNotificationCenterRef c, void *o,
 %hook AFSiriActivationConnection
 
 - (void)connectionDidActivate:(id)activation {
-    NSLog(@"[SAO] AFSiriActivationConnection - Hey Siri intercettato");
+    NSLog(@"[SAO] Intercettato - invio a AI");
     CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
         (__bridge CFStringRef)kHerySiriStart, NULL, NULL, YES);
+    // NON chiamiamo %orig per bloccare il flusso nativo
+}
+
+- (void)connectionDidDeactivate:(id)activation {
+    // Blocca anche la disattivazione nativa
+}
+
+- (void)connection:(id)connection didReceiveRequest:(id)request {
+    // Blocca le richieste native verso i server Apple
 }
 
 %end
