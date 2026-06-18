@@ -29,10 +29,10 @@ typedef NS_ENUM(NSInteger, SAOProvider) {
 static NSDictionary *SAOPrefs(void) {
     return [NSDictionary dictionaryWithContentsOfFile:kPrefsPath] ?: @{};
 }
-static NSString   *SAOKey(void)      { return SAOPrefs()[@"apiKey"] ?: @""; }
+static NSString   *SAOKey(void)         { return SAOPrefs()[@"apiKey"] ?: @""; }
 static SAOProvider SAOGetProvider(void) { return (SAOProvider)[SAOPrefs()[@"aiProvider"] integerValue]; }
-static BOOL        SAOEnabled(void)  { NSNumber *v = SAOPrefs()[@"enabled"];     return v ? v.boolValue : YES; }
-static BOOL        SAOGlowOn(void)   { NSNumber *v = SAOPrefs()[@"glowEnabled"]; return v ? v.boolValue : YES; }
+static BOOL        SAOEnabled(void)     { NSNumber *v = SAOPrefs()[@"enabled"];     return v ? v.boolValue : YES; }
+static BOOL        SAOGlowOn(void)      { NSNumber *v = SAOPrefs()[@"glowEnabled"]; return v ? v.boolValue : YES; }
 
 // ==============================================================================
 #pragma mark - SAOGlowView
@@ -89,38 +89,29 @@ static BOOL        SAOGlowOn(void)   { NSNumber *v = SAOPrefs()[@"glowEnabled"];
         (__bridge id)[UIColor colorWithRed:0.40 green:0.85 blue:0.75 alpha:1].CGColor,
         (__bridge id)[UIColor colorWithRed:0.40 green:0.60 blue:1.00 alpha:1].CGColor,
     ];
-    NSArray *kt      = @[@0.0, @0.25, @0.50, @0.75, @1.0];
-    NSArray *layers  = @[_top, _bot, _lft, _rgt];
-    double   offs[]  = {0.0, 0.5, 0.25, 0.75};
+    NSArray *kt     = @[@0.0, @0.25, @0.50, @0.75, @1.0];
+    NSArray *layers = @[_top, _bot, _lft, _rgt];
+    double   offs[] = {0.0, 0.5, 0.25, 0.75};
 
     for (NSUInteger i = 0; i < 4; i++) {
         CAShapeLayer *layer = layers[i];
 
-        CAKeyframeAnimation *ca  = [CAKeyframeAnimation animationWithKeyPath:@"strokeColor"];
-        ca.values                = colors;
-        ca.keyTimes              = kt;
-        ca.duration              = kGlowDur;
-        ca.repeatCount           = HUGE_VALF;
-        ca.calculationMode       = kCAAnimationLinear;
-        ca.fillMode              = kCAFillModeForwards;
-        ca.removedOnCompletion   = NO;
-        ca.timeOffset            = offs[i] * kGlowDur;
+        CAKeyframeAnimation *ca = [CAKeyframeAnimation animationWithKeyPath:@"strokeColor"];
+        ca.values = colors; ca.keyTimes = kt; ca.duration = kGlowDur;
+        ca.repeatCount = HUGE_VALF; ca.calculationMode = kCAAnimationLinear;
+        ca.fillMode = kCAFillModeForwards; ca.removedOnCompletion = NO;
+        ca.timeOffset = offs[i] * kGlowDur;
 
-        CAKeyframeAnimation *oa  = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
-        oa.values                = @[@0.6, @1.0, @0.6];
-        oa.keyTimes              = @[@0.0, @0.5, @1.0];
-        oa.duration              = kGlowDur * 1.5;
-        oa.repeatCount           = HUGE_VALF;
-        oa.calculationMode       = kCAAnimationLinear;
-        oa.fillMode              = kCAFillModeForwards;
-        oa.removedOnCompletion   = NO;
+        CAKeyframeAnimation *oa = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
+        oa.values = @[@0.6, @1.0, @0.6]; oa.keyTimes = @[@0.0, @0.5, @1.0];
+        oa.duration = kGlowDur * 1.5; oa.repeatCount = HUGE_VALF;
+        oa.calculationMode = kCAAnimationLinear;
+        oa.fillMode = kCAFillModeForwards; oa.removedOnCompletion = NO;
 
-        CAAnimationGroup *g      = [CAAnimationGroup animation];
-        g.animations             = @[ca, oa];
-        g.duration               = kGlowDur * 1.5;
-        g.repeatCount            = HUGE_VALF;
-        g.fillMode               = kCAFillModeForwards;
-        g.removedOnCompletion    = NO;
+        CAAnimationGroup *g = [CAAnimationGroup animation];
+        g.animations = @[ca, oa]; g.duration = kGlowDur * 1.5;
+        g.repeatCount = HUGE_VALF; g.fillMode = kCAFillModeForwards;
+        g.removedOnCompletion = NO;
 
         [layer addAnimation:g forKey:@"saoGlow"];
         layer.opacity = 0.8f;
@@ -182,10 +173,10 @@ static BOOL        SAOGlowOn(void)   { NSNumber *v = SAOPrefs()[@"glowEnabled"];
     _tts.delegate  = self;
     _q = dispatch_queue_create("com.sao.worker",
         dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_UTILITY, 0));
-    NSURLSessionConfiguration *cfg       = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-    cfg.timeoutIntervalForRequest         = 15;
-    cfg.timeoutIntervalForResource        = 30;
-    cfg.HTTPMaximumConnectionsPerHost     = 1;
+    NSURLSessionConfiguration *cfg   = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    cfg.timeoutIntervalForRequest     = 15;
+    cfg.timeoutIntervalForResource    = 30;
+    cfg.HTTPMaximumConnectionsPerHost = 1;
     _sess = [NSURLSession sessionWithConfiguration:cfg];
     return self;
 }
@@ -316,7 +307,7 @@ static BOOL        SAOGlowOn(void)   { NSNumber *v = SAOPrefs()[@"glowEnabled"];
 @end
 
 // ==============================================================================
-#pragma mark - Darwin C callbacks (funzioni C pure, NON blocchi ObjC)
+#pragma mark - Darwin C callbacks
 // ==============================================================================
 
 static __weak SAOGlowView *s_glow = nil;
@@ -408,9 +399,10 @@ static void SAOOnStop(CFNotificationCenterRef c, void *o,
 
 %group AssistantD
 
-%hook SiriTriggerWordDetector
+%hook AFSiriActivationConnection
 
-- (void)detector:(id)d didDetectTriggerWordWithConfidence:(double)c {
+- (void)connectionDidActivate:(id)activation {
+    NSLog(@"[SAO] AFSiriActivationConnection - Hey Siri intercettato");
     CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
         (__bridge CFStringRef)kHerySiriStart, NULL, NULL, YES);
 }
@@ -429,7 +421,7 @@ static void SAOOnStop(CFNotificationCenterRef c, void *o,
         if ([proc isEqualToString:@"SpringBoard"]) {
             %init(SpringBoard);
         } else if ([proc isEqualToString:@"assistantd"]) {
-            if (NSClassFromString(@"SiriTriggerWordDetector")) {
+            if (NSClassFromString(@"AFSiriActivationConnection")) {
                 %init(AssistantD);
             }
         }
